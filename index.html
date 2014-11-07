@@ -1,17 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel='stylesheet' type='css' href='styles.css'> 
+    <meta charset="UTF-8">
+    <link rel="icon" href="img/asteroid.png">
+    <link rel='stylesheet' type='css' href='css/styles.css'> 
+    <title>Come At Me Bro</title>
   </head>
   <body>
-    <div class="scoreboard">
-      <!-- Modify the scoreboard when important events occur in your game! -->
-      <div class="high">High score: <span>0</span></div>
-      <div class="current">Current score: <span>0</span></div>
-      <div class="collisions">Collisions: <span>0</span></div>
+
+    <!-- wrapper -->
+    <div class="main">
+
+      <!-- scoreboard and title -->
+      <header>
+
+        <div class="scoreboard">
+          <div class="high">High score: <span>0</span></div>
+          <div class="current">Current score: <span>0</span></div>
+          <div class="collisions">Collisions: <span>0</span></div>
+        </div>
+
+        <h1>Watchout</h1>
+        <p>Don't get hit.</p>
+
+      </header>
+
+      <section>
+        <div class="gameboard safe">
+          <svg width="960" height="575">
+          </svg>
+        </div>
+      </section>
+
     </div>
-    <script src="d3.js" charset="utf-8"></script>
-    <script src='vid.js'></script>
-    <script src='watchout.js'></script>
+
+
+    <!-- scripts -->
+    <script src="lib/d3.js" charset="utf-8"></script>
+    <script src='lib/vid.js'></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+    <script src='js/watchout.js'></script>
   </body>
 </html>
