@@ -6,12 +6,14 @@ var svg = d3.select('svg');
 // game stats
 var score = 0;
 var bestScore = 0;
+var collisions = 0;
+var buffer = false;
 
 // handle score display
 var updateScore = function(){
   d3.select('.cscore')
     .text(score.toString());
-}
+};
 
 // handle high score display
 var updateBestScore = function(){
@@ -19,6 +21,19 @@ var updateBestScore = function(){
   d3.select('.hscore')
     .text(bestScore.toString());
 };
+
+// handle collision count display
+var updateCollisionCount = function(){
+  collisions += 1;
+
+  buffer = true;
+  setTimeout(function(){ return buffer = false; }, 300);
+
+  d3.select('.colCount')
+    .text(collisions.toString());
+};
+
+
 
 // create player data
 var createPlayer = function(){
@@ -93,8 +108,8 @@ var moveCircles = function(){
   // set new random position for each circle
   // transition animation between old position and new position
   circles.transition()
-    .attr('cx', function(){ return Math.round(Math.random() * 955) })
-    .attr('cy', function(){ return Math.round(Math.random() * 570) })
+    .attr('cx', function(){ return Math.round(Math.random() * 955); })
+    .attr('cy', function(){ return Math.round(Math.random() * 570); })
     .duration(2000);
 };
 
@@ -118,30 +133,33 @@ var onCollision = function(){
   updateScore();
 };
 
-var detectCollisions = function(enemyData, callback){
-  var enemies = d3.selectAll('circle');
-
-  var player_x = parseInt(d3.select('rect').x);
-  var player_y = parseInt(d3.select('rect').y);
+var detectCollisions = function(callback){
+  var enemies = d3.selectAll('circle')[0];
+  console.log(enemies);
+  var playerX = d3.select('rect').attr('x');
+  var playerY = d3.select('rect').attr('y');
 
   _.each(enemies, function(enemy){
-    var enemy_x = parseInt(enemy.cx);
-    var enemy_y = parseInt(enemy.cy);
+    var enemyX = enemy.cx.animVal.value;
+    var enemyY = enemy.cy.animVal.value;
 
-    var xDiff = enemy_x - player_x;
-    var yDiff = enemy_y - player_y;
+    var xDiff = enemyX - playerX;
+    var yDiff = enemyY - playerY;
 
     var separation = Math.sqrt(Math.pow(xDiff, 2)+ Math.pow(yDiff, 2));
 
     if (separation < 12) {
+      if (!buffer) {
+        updateCollisionCount();
+      }
       return callback();
     }
-  })
+  });
 };
 
 // initialize game
 var playGame = function(){
-  var newCirclePositions = createCircles(25);
+  var newCirclePositions = createCircles(50);
   renderCircles(newCirclePositions);
   setInterval(moveCircles, 2000);
 
@@ -151,10 +169,10 @@ var playGame = function(){
   var increaseScore = function(){
     score += 1;
     updateScore();
-  }
+  };
 
   setInterval(increaseScore, 75);
-  setInterval(detectCollisions, 10);
+  setInterval(function(){ detectCollisions(onCollision); }, 10);
 };
 
 playGame();
