@@ -1,6 +1,6 @@
 /* your beautiful css styling goes here! */
 
-/* Note: an asteroid image is included in this repo. 
+/* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
 /** cssreset.com **/
@@ -67,6 +67,10 @@ header {
 h1 {
   font-size: 30px;
   margin-bottom: 5px;
+}
+
+span {
+  font-weight: bold;
 }
 
 /** gameboard **/
