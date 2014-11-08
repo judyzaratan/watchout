@@ -119,8 +119,24 @@ var onCollision = function(){
 };
 
 var detectCollisions = function(enemyData, callback){
+  var enemies = d3.selectAll('circle');
 
+  var player_x = parseInt(d3.select('rect').x);
+  var player_y = parseInt(d3.select('rect').y);
 
+  _.each(enemies, function(enemy){
+    var enemy_x = parseInt(enemy.cx);
+    var enemy_y = parseInt(enemy.cy);
+
+    var xDiff = enemy_x - player_x;
+    var yDiff = enemy_y - player_y;
+
+    var separation = Math.sqrt(Math.pow(xDiff, 2)+ Math.pow(yDiff, 2));
+
+    if (separation < 12) {
+      return callback();
+    }
+  })
 };
 
 // initialize game
@@ -138,6 +154,7 @@ var playGame = function(){
   }
 
   setInterval(increaseScore, 75);
+  setInterval(detectCollisions, 10);
 };
 
 playGame();
